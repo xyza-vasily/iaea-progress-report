@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRP D12015 — Intern Progress Report | IAEA Soil & Water Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --iaea-navy: #003366;
+      --iaea-blue: #0066cc;
+      --iaea-teal: #007a6e;
+      --iaea-light-teal: #e0f2f0;
+      --iaea-accent: #00b09b;
+      --iaea-gold: #c8a84b;
+      --bg: #f7f5f0;
+      --surface: #ffffff;
+      --surface2: #f0ede6;
+      --text: #1a1a1a;
+      --text-muted: #5a5a5a;
+      --text-faint: #8a8a8a;
+      --border: rgba(0,0,0,0.08);
+      --border-strong: rgba(0,0,0,0.15);
+      --radius: 10px;
+      --radius-lg: 16px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(247,245,240,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+    .nav-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+    .nav-logo {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--iaea-navy);
+    }
+    .nav-logo span { color: var(--iaea-teal); }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--iaea-navy); }
+
+    /* ─── HERO ─── */
+    .hero {
+      background: var(--iaea-navy);
+      color: white;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-grid {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 5rem 2rem 4rem;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 1.5rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: var(--iaea-gold);
+    }
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 400;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      max-width: 600px;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--iaea-gold);
+    }
+    .hero-desc {
+      font-size: 15px;
+      color: rgba(255,255,255,0.65);
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+    }
+    .hero-meta-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .hero-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .hero-meta-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+    }
+    .hero-meta-val {
+      font-size: 13px;
+      color: rgba(255,255,255,0.9);
+    }
+
+    /* decorative circles */
+    .hero-deco {
+      position: absolute;
+      right: -60px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 500px;
+      height: 500px;
+      z-index: 1;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+    .hero-deco circle { stroke: white; stroke-width: 1; fill: none; }
+
+    /* ─── CONTENT WRAPPER ─── */
+    .content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    /* ─── STATS BAND ─── */
+    .stats-band {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 3rem;
+    }
+    .stat-cell {
+      background: var(--surface);
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.5rem;
+      color: var(--iaea-navy);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-num.teal { color: var(--iaea-teal); }
+    .stat-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* ─── SECTION HEADERS ─── */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--iaea-teal);
+      margin-bottom: 1.25rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── IMPACT CARDS (main deliverables) ─── */
+    .impact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 3rem;
+    }
+    @media (max-width: 600px) { .impact-grid { grid-template-columns: 1fr; } }
+
+    .impact-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      transition: box-shadow 0.2s, transform 0.2s;
+      cursor: default;
+    }
+    .impact-card:hover {
+      box-shadow: 0 8px 24px rgba(0,51,102,0.08);
+      transform: translateY(-2px);
+    }
+    .impact-card.featured {
+      border-color: var(--iaea-teal);
+      grid-column: span 2;
+      background: var(--iaea-light-teal);
+    }
+    @media (max-width: 600px) { .impact-card.featured { grid-column: span 1; } }
+
+    .card-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 0.85rem;
+    }
+    .tag-method { background: #e8f0fa; color: #003d99; }
+    .tag-field   { background: #e8f5e9; color: #1b5e20; }
+    .tag-comms   { background: #fff3e0; color: #7c3500; }
+    .tag-data    { background: #f3e5f5; color: #4a148c; }
+    .tag-core    { background: var(--iaea-navy); color: white; }
+
+    .card-what {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+      line-height: 1.3;
+    }
+    .card-so-what {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 1rem;
+    }
+    .card-so-what strong { color: var(--iaea-navy); font-weight: 600; }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: var(--iaea-teal);
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid rgba(0,122,110,0.3);
+      padding-bottom: 1px;
+      transition: border-color 0.2s;
+    }
+    .card-link:hover { border-color: var(--iaea-teal); }
+    .card-link svg { width: 12px; height: 12px; }
+
+    /* ─── SKILLS GAINED ─── */
+    .skills-section { margin-bottom: 3rem; }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+    }
+    .skill-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+    }
+    .skill-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 16px;
+    }
+    .skill-text .skill-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+    .skill-text .skill-context {
+      font-size: 11px;
+      color: var(--text-faint);
+    }
+
+    /* ─── TIMELINE ─── */
+    .timeline-section { margin-bottom: 3rem; }
+    .timeline {
+      position: relative;
+      padding-left: 28px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 8px;
+      bottom: 8px;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--iaea-teal) 0%, var(--border) 100%);
+    }
+    .tl-item { position: relative; padding-bottom: 1.75rem; }
+    .tl-item:last-child { padding-bottom: 0; }
+    .tl-dot {
+      position: absolute;
+      left: -23px;
+      top: 5px;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      border: 2px solid var(--iaea-teal);
+      background: var(--surface);
+    }
+    .tl-dot.filled { background: var(--iaea-teal); }
+    .tl-date {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--iaea-teal);
+      margin-bottom: 4px;
+    }
+    .tl-event {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+    .tl-detail {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* ─── FIELD WORK ─── */
+    .fieldwork-strip {
+      background: var(--iaea-navy);
+      color: white;
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-bottom: 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 600px) { .fieldwork-strip { grid-template-columns: 1fr; } }
+    .fw-header {
+      grid-column: span 2;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 0.25rem;
+    }
+    @media (max-width: 600px) { .fw-header { grid-column: span 1; } }
+    .fw-site {
+      border-left: 2px solid var(--iaea-gold);
+      padding-left: 1rem;
+    }
+    .fw-name {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .fw-desc { font-size: 13px; color: rgba(255,255,255,0.65); }
+
+    /* ─── CONTEXT BOX ─── */
+    .crp-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--iaea-gold);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .crp-box-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--iaea-gold);
+      margin-bottom: 6px;
+    }
+    .crp-box p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .crp-box a {
+      color: var(--iaea-blue);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+    }
+    footer p {
+      font-size: 12px;
+      color: var(--text-faint);
+    }
+    footer .update-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--iaea-light-teal);
+      color: var(--iaea-teal);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-top: 8px;
+    }
+    footer .update-note::before { content: '↻'; }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-grid > * {
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero-grid > *:nth-child(1) { animation-delay: 0.05s; }
+    .hero-grid > *:nth-child(2) { animation-delay: 0.15s; }
+    .hero-grid > *:nth-child(3) { animation-delay: 0.25s; }
+    .hero-grid > *:nth-child(4) { animation-delay: 0.35s; }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">IAEA <span>Soil &amp; Water Lab</span> · CRP D12015</div>
+    <ul class="nav-links">
+      <li><a href="#impact">Impact</a></li>
+      <li><a href="#fieldwork">Field Work</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#context">About CRP</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <svg class="hero-deco" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="250" cy="250" r="240"/>
+    <circle cx="250" cy="250" r="190"/>
+    <circle cx="250" cy="250" r="140"/>
+    <circle cx="250" cy="250" r="90"/>
+    <circle cx="250" cy="250" r="40"/>
+  </svg>
+  <div class="hero-grid">
+    <div class="hero-eyebrow">Internship Progress Report &nbsp;·&nbsp; Quarter 1</div>
+    <h1>Mapping <em>soil health</em><br>from field to satellite</h1>
+    <p class="hero-desc">
+      From March to May 2026, I contributed to CRP D12015 — the IAEA's initiative to 
+      use gamma-ray spectrometry and digital technology to assess soil properties at scale. 
+      Here is what I built, why it matters, and what comes next.
+    </p>
+    <div class="hero-meta-strip">
+      <div class="hero-meta-item">
+        <div class="hero-meta-label">Intern</div>
+        <div class="hero-meta-val">Your Name</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-label">Division</div>
+        <div class="hero-meta-val">Soil &amp; Water Management and Crop Nutrition</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-label">Period</div>
+        <div class="hero-meta-val">March – May 2026</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-label">Supervisor</div>
+        <div class="hero-meta-val">[Supervisor Name]</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<main class="content">
+
+  <!-- STATS BAND -->
+  <div class="stats-band fade-in" style="margin-top: -2rem; position: relative; z-index: 5;">
+    <div class="stat-cell">
+      <div class="stat-num">2</div>
+      <div class="stat-desc">Standard Operating<br>Procedures authored</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num teal">2 yrs</div>
+      <div class="stat-desc">Drone footage<br>processed &amp; mapped</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">2</div>
+      <div class="stat-desc">Scientific posters<br>designed &amp; presented</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num teal">2</div>
+      <div class="stat-desc">Field sites<br>worked at</div>
+    </div>
+  </div>
+
+  <!-- IMPACT SECTION -->
+  <section id="impact" style="margin-top: 3rem;">
+    <div class="section-label fade-in">Scientific Contributions &amp; Impact</div>
+
+    <div class="impact-grid">
+
+      <!-- FEATURED CARD -->
+      <div class="impact-card featured fade-in">
+        <span class="card-tag tag-core">Core Contribution</span>
+        <div class="card-what">Built reproducible workflows for drone-based geospatial soil mapping</div>
+        <p class="card-so-what">
+          I authored two Standard Operating Procedures (SOPs) — one for Agisoft Metashape's 
+          manual and automated photogrammetry pipeline, and one for exporting outputs to QGIS 
+          for geospatial analysis. <strong>This means the lab now has documented, repeatable 
+          methodology</strong> that any researcher or Member State can follow — reducing onboarding 
+          time and ensuring data consistency across the CRP's field sites.
+        </p>
+        <a class="card-link" href="#" target="_blank">
+          View SOP — Metashape Procedure
+          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+        &nbsp;&nbsp;
+        <a class="card-link" href="#" target="_blank">
+          View SOP — Metashape to QGIS
+          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="impact-card fade-in">
+        <span class="card-tag tag-data">Data Pipeline</span>
+        <div class="card-what">Processed 2 years of drone footage into geospatial maps</div>
+        <p class="card-so-what">
+          I ran the full photogrammetry and GIS pipeline on two years of accumulated field drone 
+          data. <strong>This transforms raw imagery into analysis-ready geospatial layers</strong> —
+          the foundational dataset for soil property modelling under CRP D12015.
+        </p>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="impact-card fade-in">
+        <span class="card-tag tag-data">Computational Science</span>
+        <div class="card-what">Coded kriging interpolation for spatial soil data</div>
+        <p class="card-so-what">
+          I built the kriging code that will interpolate point-based sensor measurements into 
+          continuous spatial maps. <strong>This is the analytical engine for the CRP's soil 
+          moisture and property mapping outputs</strong> — a direct scientific deliverable.
+        </p>
+        <a class="card-link" href="#" target="_blank">
+          View kriging code (GitHub)
+          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- CARD 4 -->
+      <div class="impact-card fade-in">
+        <span class="card-tag tag-comms">Science Communication</span>
+        <div class="card-what">Co-presented at European Geosciences Union 2026</div>
+        <p class="card-so-what">
+          I designed and co-presented the CRP D12015 poster at EGU 2026 alongside Hami. 
+          <strong>This represented the IAEA's soil sensing research to the international 
+          geosciences community</strong> — one of Europe's largest Earth science conferences.
+        </p>
+        <a class="card-link" href="#" target="_blank">
+          View EGU poster
+          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- CARD 5 -->
+      <div class="impact-card fade-in">
+        <span class="card-tag tag-comms">Diplomatic Outreach</span>
+        <div class="card-what">Designed poster for Ambassador delegation visit</div>
+        <p class="card-so-what">
+          I created the visual communication material used to brief ambassadors on CRP D12015 
+          during their April visit. <strong>Effective science diplomacy depends on clear, 
+          compelling visuals</strong> — this poster communicated the CRP's value to policy-level 
+          stakeholders.
+        </p>
+        <a class="card-link" href="#" target="_blank">
+          View ambassador poster
+          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- CARD 6 -->
+      <div class="impact-card fade-in">
+        <span class="card-tag tag-method">Project Management</span>
+        <div class="card-what">Built visual workflow maps for both assigned projects</div>
+        <p class="card-so-what">
+          I structured and documented the step-by-step workflow for my two projects to make 
+          progress visible and handoffs smoother. <strong>This is a practical tool for 
+          coordinating across a multi-country CRP</strong> where clarity of process matters.
+        </p>
+        <a class="card-link" href="#" target="_blank">
+          View workflow documentation
+          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FIELD WORK -->
+  <section id="fieldwork" class="fade-in">
+    <div class="section-label">Field Work</div>
+    <div class="fieldwork-strip">
+      <div class="fw-header">Sites visited this quarter</div>
+      <div class="fw-site">
+        <div class="fw-name">🌱 Grabenneg</div>
+        <div class="fw-desc">
+          Participated in planting operations. Ground-truth field work is essential for 
+          validating the remote sensing and sensor data the CRP relies on.
+        </div>
+      </div>
+      <div class="fw-site">
+        <div class="fw-name">📡 Raasdorf</div>
+        <div class="fw-desc">
+          Downloaded data from in situ sensors in the field. This keeps the continuous 
+          soil moisture and soil property time-series intact — data the kriging model will use.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS SECTION -->
+  <section id="skills" class="skills-section fade-in">
+    <div class="section-label">Capabilities Built This Quarter</div>
+    <div class="skills-grid">
+      <div class="skill-row">
+        <div class="skill-icon" style="background:#e8f5e9;">🛰️</div>
+        <div class="skill-text">
+          <div class="skill-name">Drone Photogrammetry</div>
+          <div class="skill-context">Agisoft Metashape · manual &amp; automated</div>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-icon" style="background:#e3f2fd;">🗺️</div>
+        <div class="skill-text">
+          <div class="skill-name">GIS &amp; Spatial Analysis</div>
+          <div class="skill-context">QGIS · geospatial mapping</div>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-icon" style="background:#f3e5f5;">📐</div>
+        <div class="skill-text">
+          <div class="skill-name">Kriging &amp; Geostatistics</div>
+          <div class="skill-context">Spatial interpolation coding</div>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-icon" style="background:#fff8e1;">☢️</div>
+        <div class="skill-text">
+          <div class="skill-name">Gamma &amp; Cosmic Ray Theory</div>
+          <div class="skill-context">Principles of nuclear soil sensing</div>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-icon" style="background:#fce4ec;">🧪</div>
+        <div class="skill-text">
+          <div class="skill-name">Gravimetric Soil Content</div>
+          <div class="skill-context">Lab measurement technique</div>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-icon" style="background:#e0f2f1;">📡</div>
+        <div class="skill-text">
+          <div class="skill-name">MIRS Spectroscopy</div>
+          <div class="skill-context">Training with Kazu</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="timeline-section fade-in">
+    <div class="section-label">Quarter at a Glance</div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot filled"></div>
+        <div class="tl-date">March 2026</div>
+        <div class="tl-event">SOPs authored · Drone data pipeline started</div>
+        <div class="tl-detail">Documented Agisoft Metashape procedures; began processing 2-year drone footage backlog</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot filled"></div>
+        <div class="tl-date">April 2026</div>
+        <div class="tl-event">EGU Conference · Ambassador visit · Raasdorf field work</div>
+        <div class="tl-detail">Co-presented at EGU 2026; designed ambassador poster; downloaded in situ sensor data at Raasdorf</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot filled"></div>
+        <div class="tl-date">April–May 2026</div>
+        <div class="tl-event">Kriging code complete · Grabenneg field work · MIRS training</div>
+        <div class="tl-detail">Built spatial interpolation code; planting field work at Grabenneg; MIRS training with Kazu; lab training on gravimetric soil content</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">Next quarter — June onwards</div>
+        <div class="tl-event">Running kriging analysis · Expanding GIS outputs</div>
+        <div class="tl-detail">Applying interpolation to sensor dataset; generating soil property maps; contributing to CRP analysis pipeline</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CRP CONTEXT BOX -->
+  <section id="context" class="fade-in">
+    <div class="section-label">About the Research</div>
+    <div class="crp-box">
+      <div class="crp-box-label">CRP D12015 — IAEA Coordinated Research Project</div>
+      <p>
+        <strong>Combining Gamma-Ray Sensing and Digital Technology for Soil Moisture and Soil 
+        Property Mapping.</strong> This project advances gamma-ray spectrometry as a non-invasive, 
+        scalable technique to assess soil texture, organic carbon, nitrogen, moisture, and erosion 
+        risk — supporting sustainable agriculture across 11 Member States.
+        My work this quarter directly feeds into the methodology development and data pipeline 
+        that the CRP depends on.
+        <br><br>
+        <a href="https://www.iaea.org/projects/crp/d12015" target="_blank">
+          Read the full CRP description on iaea.org →
+        </a>
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Soil &amp; Water Management and Crop Nutrition — IAEA · Vienna, Austria</p>
+  <div class="update-note">Updated May 2026 · Next update August 2026</div>
+</footer>
+
+<script>
+  // Scroll-triggered fade-ins
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
